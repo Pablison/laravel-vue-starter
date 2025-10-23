@@ -58,10 +58,8 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        // Pede ao 'guard' da 'api' (nosso JWT) para fazer logout
-        Auth::guard('api')->logout();
 
-        // Retorna uma resposta de sucesso
+        Auth::guard('api')->logout();
         return response()->json(['message' => 'Logout realizado com sucesso']);
     }
 
