@@ -2,15 +2,20 @@
     <q-page padding>
         <div class="row items-center q-mb-md">
             <div class="text-h4">Gerenciar Usuários</div>
-            <q-space />
-            <q-btn color="primary" icon="add" label="Novo Usuário" @click="openDialog()" />
+            <q-space /><q-btn v-if="authStore.isAdmin" color="primary" icon="add" label="Novo Usuário"
+                @click="openDialog()" />
         </div>
 
         <q-table :rows="rows" :columns="columns" row-key="id" :loading="loading">
             <template v-slot:body-cell-actions="props">
                 <q-td :props="props">
-                    <q-btn flat round color="primary" icon="edit" size="sm" @click="openDialog(props.row)" />
-                    <q-btn flat round color="negative" icon="delete" size="sm" @click="deleteUser(props.row)" />
+                    <div v-if="authStore.isAdmin">
+                        <q-btn flat round color="primary" icon="edit" size="sm" @click="openDialog(props.row)" />
+                        <q-btn flat round color="negative" icon="delete" size="sm" @click="deleteUser(props.row)" />
+                    </div>
+                    <div v-else class="text-grey-6 text-caption">
+                        Visualizar apenas
+                    </div>
                 </q-td>
             </template>
         </q-table>
@@ -24,12 +29,14 @@
 import { ref, onMounted } from 'vue'
 import { api } from 'boot/axios'
 import { useQuasar } from 'quasar'
-import UserDialog from 'components/UserDialog.vue' // Importa o componente
+import UserDialog from 'components/UserDialog.vue'
+import { useAuthStore } from 'stores/auth'
 
 const $q = useQuasar()
 const rows = ref([])
 const loading = ref(false)
-const userDialogRef = ref(null) // Referência para o componente filho
+const userDialogRef = ref(null)
+const authStore = useAuthStore()
 
 const columns = [
     { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
