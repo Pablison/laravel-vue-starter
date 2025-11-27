@@ -7,13 +7,14 @@ const api = axios.create({
   baseURL: 'http://localhost:8000/api'
 })
 
+const token = localStorage.getItem('token')
+if (token) {
+  api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+}
+
 export default boot(({ app }) => {
-  // Para uso dentro de arquivos .js (como as stores do Pinia)
   app.config.globalProperties.$axios = axios
-  
-  // Para uso dentro de componentes Vue (.vue files) com this.$api
   app.config.globalProperties.$api = api
 })
 
-// Exporte a instância 'api' para podermos usá-la em qualquer lugar
 export { api }

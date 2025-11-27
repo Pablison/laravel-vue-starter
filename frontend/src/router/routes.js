@@ -3,13 +3,17 @@ const routes = [
   {
     path: '/login',
     component: () => import('pages/LoginPage.vue'),
-    meta: { guest: true}
+    meta: { guest: true }
   },
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     meta: { requiresAuth: true },
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    children: [
+      { path: '', component: () => import('pages/IndexPage.vue') },
+
+      { path: 'users', component: () => import('pages/UsersPage.vue') }
+    ],
   },
 
   // Always leave this as last one,
