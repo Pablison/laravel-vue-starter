@@ -165,6 +165,3 @@ O banco de dados é inicializado com os seguintes usuários para teste:
 -----
 
 Desenvolvido por **Pablison**.
-
-```
-```
